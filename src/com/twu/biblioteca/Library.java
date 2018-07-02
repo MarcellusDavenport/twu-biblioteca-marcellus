@@ -3,24 +3,24 @@ package com.twu.biblioteca;
 import java.util.ArrayList;
 
 public class Library {
-    private ArrayList<Book> availableBooks;
+    private ArrayList<Book> books;
 
     public Library() {
-        this.availableBooks = new ArrayList<Book>();
+        this.books = new ArrayList<Book>();
         // adds 11 books to available books
         for (int i = 0; i < 11; i++) {
-            this.availableBooks.add(new Book("Book " + String.valueOf(i), "Author " + String.valueOf(i), i));
+            this.books.add(new Book("Book " + String.valueOf(i), "Author " + String.valueOf(i), i));
         }
 
     }
 
     public ArrayList<Book> listBooks() {
-        return availableBooks;
+        return books;
     }
 
     public boolean checkoutBookByName(String bookName) {
-        for (int i = 0; i < availableBooks.size(); i++) {
-            Book book = availableBooks.get(i);
+        for (int i = 0; i < books.size(); i++) {
+            Book book = books.get(i);
             if (book.getName().equals(bookName) && book.isAvailable()) {
                 book.setAvailability(false);
                 return true;
@@ -28,5 +28,18 @@ public class Library {
         }
         return false;
     }
+
+    public boolean returnBookByName(String bookName) {
+        for (int i = 0; i < books.size(); i++) {
+            Book book = books.get(i);
+            if (book.getName().equals(bookName) && !book.isAvailable()) {
+                book.setAvailability(true);
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 }
 

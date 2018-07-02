@@ -21,6 +21,15 @@ public class LibraryTest {
         assertFalse(library.checkoutBookByName("Book"));
     }
 
-    
+    @Test
+    public void returnBook() {
+        Library library = new Library();
+
+        assertFalse(library.returnBookByName("Book 1"));
+        assertFalse(library.returnBookByName("Book"));
+
+        library.checkoutBookByName("Book 1");
+        assertTrue(library.returnBookByName("Book 1"));
+    }
 }
 
