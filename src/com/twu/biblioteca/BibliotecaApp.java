@@ -60,6 +60,10 @@ public class BibliotecaApp {
     private static void listBooks(Library library) {
         System.out.println("Here are the list of books:/nBook Name | Author | Year Published\n");
         ArrayList<Book> listOfBooks = library.listBooks();
+        printBooks(listOfBooks);
+    }
+
+    private static void printBooks(ArrayList<Book> listOfBooks) {
         for (int i = 0; i < listOfBooks.size(); i++) {
             Book book = listOfBooks.get(i);
             if (book.isAvailable()) {
