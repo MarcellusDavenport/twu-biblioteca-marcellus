@@ -5,12 +5,13 @@ public class Book {
     private String author;
     private int yearPublished;
     private boolean available;
+    private String userCheckedOut;
 
     public Book(String name, String author, int yearPublished) {
         this.name = name;
         this.author = author;
         this.yearPublished = yearPublished;
-        this.available = true;
+        userCheckedOut = "none";
     }
 
     public String getName() {
@@ -25,11 +26,15 @@ public class Book {
         return yearPublished;
     }
 
-    public void setAvailability(boolean bool) {
-        available = bool;
+    public void setUserCheckedOut(String user) {
+        userCheckedOut = user;
     }
 
     public boolean isAvailable() {
-        return available;
+        return userCheckedOut.equals("none");
+    }
+
+    public String getUserCheckedOut() {
+        return userCheckedOut;
     }
 }
