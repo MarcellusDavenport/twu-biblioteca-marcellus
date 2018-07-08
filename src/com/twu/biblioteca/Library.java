@@ -88,7 +88,7 @@ public class Library {
         return false;
     }
 
-    public UserAccount authenticateUser(String libraryNumber, String password) {
+    public UserAccount checkIfUserExists(String libraryNumber, String password) {
         for (UserAccount user : users) {
             if (user.getLibraryNumber().equals(libraryNumber) && user.getPassword().equals(password)) {
                 return user;

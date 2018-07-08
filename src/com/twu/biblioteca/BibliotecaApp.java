@@ -70,38 +70,29 @@ public class BibliotecaApp {
     }
 
     private static void loginUser() {
-        String libraryNumber = getLibraryNumber();
-        String password = getPassword();
-        UserAccount authenticatedUser = null;
-        authenticatedUser = library.authenticateUser(libraryNumber, password);
-        if (authenticatedUser == null) {
+        UserAccount validUser = getUserAccount();
+        if (validUser == null) {
             System.out.println("The library number or password you entered is incorrect.\n");
         } else {
             System.out.println("The login was successful!\n");
-            userLoggedIn = authenticatedUser;
+            userLoggedIn = validUser;
         }
     }
 
-    private static String getPassword() {
-        System.out.println("Enter your password.\n");
-        scan.nextLine(); // consumes newline character
-        return scan.nextLine();
-    }
-
-    private static String getLibraryNumber() {
+    private static UserAccount getUserAccount() {
         System.out.println("Enter your library number.\n");
-        scan.nextLine(); // consumes newline character
-        return scan.nextLine();
+        String libraryNumber = getString();
+        System.out.println("Enter your password.\n");
+        String password = getString();
+        return library.checkIfUserExists(libraryNumber, password);
     }
-
 
     private static void returnMovie() {
         if (userLoggedIn == null) {
             System.out.println("You have to be logged-in in order to return a movie.\n");
         } else {
             System.out.println("Enter the name of the movie you would like to return.\n");
-            scan.nextLine(); // consumes newline character
-            String movieName = scan.nextLine();
+            String movieName = getString();
             if (library.returnMovieByName(movieName)) {
                 System.out.println("Thank you for returning the movie.\n");
             } else {
@@ -115,14 +106,18 @@ public class BibliotecaApp {
             System.out.println("You have to be logged-in in order to checkout a movie.\n");
         } else {
             System.out.println("Enter the name of the movie you would like to check out.\n");
-            scan.nextLine(); // consumes newline character
-            String movieName = scan.nextLine();
+            String movieName = getString();
             if (library.checkoutMovieByName(movieName, userLoggedIn.getLibraryNumber())) {
                 System.out.println("Thank you! Enjoy the movie!\n");
             } else {
                 System.out.println("That movie is not available.\n");
             }
         }
+    }
+
+    private static String getString() {
+        scan.nextLine(); // consumes newline character
+        return scan.nextLine();
     }
 
     private static void listMovies() {
@@ -146,8 +141,7 @@ public class BibliotecaApp {
             System.out.println("You have to be logged-in in order to return a book.\n");
         } else {
             System.out.println("Enter the name of the book you would like to return.\n");
-            scan.nextLine(); // consumes newline character
-            String bookName = scan.nextLine();
+            String bookName = getString();
             if (library.returnBookByName(bookName)) {
                 System.out.println("Thank you for returning the book.\n");
             } else {
@@ -178,8 +172,7 @@ public class BibliotecaApp {
             System.out.println("You have to be logged-in in order to checkout a book.\n");
         } else {
             System.out.println("Enter the name of the book you would like to check out.\n");
-            scan.nextLine(); // consumes newline character
-            String bookName = scan.nextLine();
+            String bookName = getString();
             if (library.checkoutBookByName(bookName, userLoggedIn.getLibraryNumber())) {
                 System.out.println("Thank you! Enjoy the book!\n");
             } else {
