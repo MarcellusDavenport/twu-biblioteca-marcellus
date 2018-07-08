@@ -7,14 +7,14 @@ public class Movie {
     private int year;
     private String director;
     private String movieRating;
-    private String userCheckedOut;
+    private String userCheckedOutByLibraryNumber;
 
     public Movie(String name, int year, String director, String movieRating) {
         this.name = name;
         this.year = year;
         this.director = director;
         this.movieRating = movieRating;
-        userCheckedOut = "none";
+        userCheckedOutByLibraryNumber = "none";
     }
 
     public String getName() {
@@ -33,15 +33,15 @@ public class Movie {
         return movieRating;
     }
 
-    public void setUserCheckedOut(String user) {
-        userCheckedOut = user;
+    public void setUserCheckedOutByLibraryNumber(String user) {
+        userCheckedOutByLibraryNumber = user;
     }
 
     public boolean isAvailable() {
-        return userCheckedOut.equals("none");
+        return userCheckedOutByLibraryNumber.equals("none");
     }
 
-    public String getUserCheckedOut() {
-        return userCheckedOut;
+    public String getUserCheckedOutByLibraryNumber() {
+        return userCheckedOutByLibraryNumber;
     }
 }

@@ -33,11 +33,11 @@ public class Library {
         return movies;
     }
 
-    public boolean checkoutBookByName(String bookName, String user) {
+    public boolean checkoutBookByName(String bookName, String userByLibraryNumber) {
         for (int i = 0; i < books.size(); i++) {
             Book book = books.get(i);
             if (book.getName().equals(bookName) && book.isAvailable()) {
-                book.setUserCheckedOut(user);
+                book.setUserCheckedOutByLibraryNumber(userByLibraryNumber);
                 return true;
             }
         }
@@ -48,7 +48,7 @@ public class Library {
         for (int i = 0; i < books.size(); i++) {
             Book book = books.get(i);
             if (book.getName().equals(bookName) && !book.isAvailable()) {
-                book.setUserCheckedOut("none");
+                book.setUserCheckedOutByLibraryNumber("none");
                 return true;
             }
         }
@@ -56,5 +56,15 @@ public class Library {
     }
 
 
+    public boolean checkoutMovieByName(String movieName, String userByLibraryNumber) {
+        for (int i = 0; i < movies.size(); i++) {
+            Movie movie = movies.get(i);
+            if (movie.getName().equals(movieName) && movie.isAvailable()) {
+                movie.setUserCheckedOutByLibraryNumber(userByLibraryNumber);
+                return true;
+            }
+        }
+        return false;
+    }
 }
 

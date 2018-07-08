@@ -5,34 +5,42 @@ import java.util.Scanner;
 
 public class BibliotecaApp {
 
+    private static Scanner scan = new Scanner(System.in);
+    private static Library library = new Library();
+    private static UserAccount userLoggedIn = null;
+
     public static void main(String[] args) {
-
-        Scanner scan = new Scanner(System.in);
-        Library library = new Library();
-
-        System.out.println("Welcome, Customer\n");
 
         boolean userPressedQuit = false;
 
         while (!userPressedQuit) {
-            System.out.println("What would you like to do (enter the number associated with the option)? The options" +
-                    " are: (1) - List Books, (2) - Checkout Book, (3) - Return Book, or (4) - Quit\n");
+            String loginOrLogout = (userLoggedIn == null) ? "(7) - Login" : "(7) - Logout";
+            System.out.println("Welcome! What would you like to do (enter the number associated with the option)?\n The options" +
+                    " are: (1) - List Books\n(2) - Checkout Book\n(3) - Return Book\n(4) - List Movies\n(5) - Checkout Movie" +
+                    "\n(6) - Return Movie\n" + loginOrLogout + "\n(8) - Quit");
+
             int commandInt = scan.nextInt();
 
             switch (commandInt) {
                 case 1:
                     // List Books
-                    listBooks(library);
+                    listBooks();
                     break;
                 case 2:
                     // Checkout Book
-                    checkoutBook(library, scan);
+                    checkoutBook();
                     break;
                 case 3:
                     // Return Book
-                    returnBook(library, scan);
+                    returnBook();
                     break;
                 case 4:
+                    // List Movies
+                    listMovies();
+                case 5:
+                    // Checkout Movie
+                    checkOutMovie();
+                case 8:
                     // Quit
                     userPressedQuit = true;
                     System.out.println("Good bye!\n");
@@ -46,10 +54,41 @@ public class BibliotecaApp {
 
     }
 
-    private static void returnBook(Library library, Scanner scanner) {
+    private static void checkOutMovie() {
+        if (userLoggedIn == null) {
+            System.out.println("You have to be logged-in in order to checkout a movie.\n");
+        } else {
+            System.out.println("Enter the name of the movie you would like to check out.\n");
+            scan.nextLine(); // consumes newline character
+            String movieName = scan.nextLine();
+            if (library.checkoutMovieByName(movieName, userLoggedIn.getLibraryNumber())) {
+                System.out.println("Thank you! Enjoy the movie!\n");
+            } else {
+                System.out.println("That movie is not available.\n");
+            }
+        }
+    }
+
+    private static void listMovies() {
+        System.out.println("Here are the list of movies:\nName | Year | Director | Movie Rating (from 1-10 or unrated)\n");
+        ArrayList<Movie> listOfMovies = library.listMovies();
+        printMovies(listOfMovies);
+    }
+
+    private static void printMovies(ArrayList<Movie> listOfMovies) {
+        for (int i = 0; i < listOfMovies.size(); i++) {
+            Movie movie = listOfMovies.get(i);
+            if (movie.isAvailable()) {
+                System.out.println((i + 1) + ": " + movie.getName() + " | " + movie.getYear() + " | " +
+                        movie.getDirector() + " | " + movie.getMovieRating() + "\n");
+            }
+        }
+    }
+
+    private static void returnBook() {
         System.out.println("Enter the name of the book you would like to return.\n");
-        scanner.nextLine(); // consumes newline character
-        String bookName = scanner.nextLine();
+        scan.nextLine(); // consumes newline character
+        String bookName = scan.nextLine();
         if (library.returnBookByName(bookName)) {
             System.out.println("Thank you for returning the book.\n");
         } else {
@@ -57,8 +96,8 @@ public class BibliotecaApp {
         }
     }
 
-    private static void listBooks(Library library) {
-        System.out.println("Here are the list of books:/nBook Name | Author | Year Published\n");
+    private static void listBooks() {
+        System.out.println("Here are the list of books:\nBook Name | Author | Year Published\n");
         ArrayList<Book> listOfBooks = library.listBooks();
         printBooks(listOfBooks);
     }
@@ -73,12 +112,11 @@ public class BibliotecaApp {
         }
     }
 
-    private static void checkoutBook(Library library, Scanner scanner) {
+    private static void checkoutBook() {
         System.out.println("Enter the name of the book you would like to check out.\n");
-        scanner.nextLine(); // consumes newline character
-        String bookName = scanner.nextLine();
-        System.out.println(bookName);
-        if (library.checkoutBookByName(bookName)) {
+        scan.nextLine(); // consumes newline character
+        String bookName = scan.nextLine();
+        if (library.checkoutBookByName(bookName, userLoggedIn.getLibraryNumber())) {
             System.out.println("Thank you! Enjoy the book!\n");
         } else {
             System.out.println("That book is not available.\n");
