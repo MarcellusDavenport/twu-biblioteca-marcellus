@@ -32,4 +32,7 @@ public class UserAccount {
         return libraryNumber;
     }
 
+    public String getPassword() {
+        return password;
+    }
 }

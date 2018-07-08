@@ -40,6 +40,12 @@ public class BibliotecaApp {
                 case 5:
                     // Checkout Movie
                     checkOutMovie();
+                case 6:
+                    // Return Movie
+                    returnMovie();
+                case 7:
+                    // Login or Logout
+                    loginOrLogout();
                 case 8:
                     // Quit
                     userPressedQuit = true;
@@ -52,6 +58,56 @@ public class BibliotecaApp {
         }
 
 
+    }
+
+    private static void loginOrLogout() {
+        if (userLoggedIn == null) {
+            loginUser();
+        } else {
+            System.out.println("The logout was successful!\n");
+            userLoggedIn = null;
+        }
+    }
+
+    private static void loginUser() {
+        String libraryNumber = getLibraryNumber();
+        String password = getPassword();
+        UserAccount authenticatedUser = null;
+        authenticatedUser = library.authenticateUser(libraryNumber, password);
+        if (authenticatedUser == null) {
+            System.out.println("The library number or password you entered is incorrect.\n");
+        } else {
+            System.out.println("The login was successful!\n");
+            userLoggedIn = authenticatedUser;
+        }
+    }
+
+    private static String getPassword() {
+        System.out.println("Enter your password.\n");
+        scan.nextLine(); // consumes newline character
+        return scan.nextLine();
+    }
+
+    private static String getLibraryNumber() {
+        System.out.println("Enter your library number.\n");
+        scan.nextLine(); // consumes newline character
+        return scan.nextLine();
+    }
+
+
+    private static void returnMovie() {
+        if (userLoggedIn == null) {
+            System.out.println("You have to be logged-in in order to return a movie.\n");
+        } else {
+            System.out.println("Enter the name of the movie you would like to return.\n");
+            scan.nextLine(); // consumes newline character
+            String movieName = scan.nextLine();
+            if (library.returnMovieByName(movieName)) {
+                System.out.println("Thank you for returning the movie.\n");
+            } else {
+                System.out.println("That is not a valid movie to return.\n");
+            }
+        }
     }
 
     private static void checkOutMovie() {
@@ -86,14 +142,19 @@ public class BibliotecaApp {
     }
 
     private static void returnBook() {
-        System.out.println("Enter the name of the book you would like to return.\n");
-        scan.nextLine(); // consumes newline character
-        String bookName = scan.nextLine();
-        if (library.returnBookByName(bookName)) {
-            System.out.println("Thank you for returning the book.\n");
+        if (userLoggedIn == null) {
+            System.out.println("You have to be logged-in in order to return a book.\n");
         } else {
-            System.out.println("That is not a valid book to return.\n");
+            System.out.println("Enter the name of the book you would like to return.\n");
+            scan.nextLine(); // consumes newline character
+            String bookName = scan.nextLine();
+            if (library.returnBookByName(bookName)) {
+                System.out.println("Thank you for returning the book.\n");
+            } else {
+                System.out.println("That is not a valid book to return.\n");
+            }
         }
+
     }
 
     private static void listBooks() {
@@ -113,13 +174,18 @@ public class BibliotecaApp {
     }
 
     private static void checkoutBook() {
-        System.out.println("Enter the name of the book you would like to check out.\n");
-        scan.nextLine(); // consumes newline character
-        String bookName = scan.nextLine();
-        if (library.checkoutBookByName(bookName, userLoggedIn.getLibraryNumber())) {
-            System.out.println("Thank you! Enjoy the book!\n");
+        if (userLoggedIn == null) {
+            System.out.println("You have to be logged-in in order to checkout a book.\n");
         } else {
-            System.out.println("That book is not available.\n");
+            System.out.println("Enter the name of the book you would like to check out.\n");
+            scan.nextLine(); // consumes newline character
+            String bookName = scan.nextLine();
+            if (library.checkoutBookByName(bookName, userLoggedIn.getLibraryNumber())) {
+                System.out.println("Thank you! Enjoy the book!\n");
+            } else {
+                System.out.println("That book is not available.\n");
+            }
         }
+
     }
 }
