@@ -8,17 +8,12 @@ public class BibliotecaApp {
     private static Scanner scan = new Scanner(System.in);
     private static Library library = new Library();
     private static UserAccount userLoggedIn = null;
+    private static boolean userPressedQuit = false;
 
     public static void main(String[] args) {
 
-        boolean userPressedQuit = false;
-
         while (!userPressedQuit) {
-            String loginOrLogout = (userLoggedIn == null) ? "(7) - Login" : "(7) - Logout";
-            String viewAccount = (userLoggedIn == null) ? "" : "(8) - View User Information";
-            System.out.println("What would you like to do (enter the number associated with the option)?\n The options" +
-                    " are:\n(0) - Quit\n(1) - List Books\n(2) - Checkout Book\n(3) - Return Book\n(4) - List Movies\n(5) - Checkout Movie" +
-                    "\n(6) - Return Movie\n" + loginOrLogout + "\n" + viewAccount);
+            userChoicePrompt();
 
             String input = scan.next();
             int commandInt;
@@ -29,51 +24,63 @@ public class BibliotecaApp {
                 continue;
             }
 
-            switch (commandInt) {
-                case 0:
-                    // Quit
-                    userPressedQuit = true;
-                    System.out.println("Good bye!\n");
-                    break;
-                case 1:
-                    // List Books
-                    listBooks();
-                    break;
-                case 2:
-                    // Checkout Book
-                    checkoutBook();
-                    break;
-                case 3:
-                    // Return Book
-                    returnBook();
-                    break;
-                case 4:
-                    // List Movies
-                    listMovies();
-                    break;
-                case 5:
-                    // Checkout Movie
-                    checkOutMovie();
-                    break;
-                case 6:
-                    // Return Movie
-                    returnMovie();
-                    break;
-                case 7:
-                    // Login or Logout
-                    loginOrLogout();
-                    break;
-                case 8:
-                    // View User Information
-                    viewUserInformation();
-                    break;
-                default:
-                     System.out.println("Select a valid option!\n");
-
-            }
+            processUserChoice(commandInt);
         }
 
 
+    }
+
+    private static void processUserChoice(int commandInt) {
+        switch (commandInt) {
+            case 0:
+                // Quit
+                userPressedQuit = true;
+                System.out.println("Good bye!\n");
+                break;
+            case 1:
+                // List Books
+                listBooks();
+                break;
+            case 2:
+                // Checkout Book
+                checkoutBook();
+                break;
+            case 3:
+                // Return Book
+                returnBook();
+                break;
+            case 4:
+                // List Movies
+                listMovies();
+                break;
+            case 5:
+                // Checkout Movie
+                checkOutMovie();
+                break;
+            case 6:
+                // Return Movie
+                returnMovie();
+                break;
+            case 7:
+                // Login or Logout
+                loginOrLogout();
+                break;
+            case 8:
+                // View User Information
+                viewUserInformation();
+                break;
+            default:
+                 System.out.println("Select a valid option!\n");
+
+        }
+    }
+
+    private static void userChoicePrompt() {
+        String loginOrLogout = (userLoggedIn == null) ? "(7) - Login" : "(7) - Logout";
+        String viewAccount = (userLoggedIn == null) ? "" : "(8) - View User Information";
+        System.out.println("What would you like to do (enter the number associated with the option)?\n The options" +
+                " are:\n(0) - Quit\n(1) - List Books\n(2) - Checkout Book\n(3) - Return Book\n(4) - List Movies\n(5) - Checkout Movie" +
+                "\n(6) - Return Movie\n" + loginOrLogout + "\n" + viewAccount);
     }
 
     private static void viewUserInformation() {
@@ -104,7 +111,7 @@ public class BibliotecaApp {
         System.out.println("Enter your library number.\n");
         String libraryNumber = getString();
         System.out.println("Enter your password.\n");
-        String password = scan.nextLine();
+        String password = scan.nextLine(); // used this instead of getString() to combat weird behavior with nextLine()
 
         return library.checkIfUserExists(libraryNumber, password);
     }
