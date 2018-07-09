@@ -35,7 +35,7 @@ public class Library {
         this.movies = new ArrayList<Movie>();
         for (int i = 0; i < 10; i++) {
             this.movies.add(new Movie("Movie " + String.valueOf(i), i, "Director " + String.valueOf(i),
-                    "Rating: " + String.valueOf(i)));
+                    "Rating: " + String.valueOf(i + 1)));
         }
     }
 

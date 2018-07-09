@@ -15,13 +15,26 @@ public class BibliotecaApp {
 
         while (!userPressedQuit) {
             String loginOrLogout = (userLoggedIn == null) ? "(7) - Login" : "(7) - Logout";
-            System.out.println("Welcome! What would you like to do (enter the number associated with the option)?\n The options" +
-                    " are: (1) - List Books\n(2) - Checkout Book\n(3) - Return Book\n(4) - List Movies\n(5) - Checkout Movie" +
-                    "\n(6) - Return Movie\n" + loginOrLogout + "\n(8) - Quit");
+            String viewAccount = (userLoggedIn == null) ? "" : "(8) - View User Information";
+            System.out.println("What would you like to do (enter the number associated with the option)?\n The options" +
+                    " are:\n(0) - Quit\n(1) - List Books\n(2) - Checkout Book\n(3) - Return Book\n(4) - List Movies\n(5) - Checkout Movie" +
+                    "\n(6) - Return Movie\n" + loginOrLogout + "\n" + viewAccount);
 
-            int commandInt = scan.nextInt();
+            String input = scan.next();
+            int commandInt;
+            try {
+                commandInt = Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                System.out.println("Select a valid option!\n");
+                continue;
+            }
 
             switch (commandInt) {
+                case 0:
+                    // Quit
+                    userPressedQuit = true;
+                    System.out.println("Good bye!\n");
+                    break;
                 case 1:
                     // List Books
                     listBooks();
@@ -37,27 +50,35 @@ public class BibliotecaApp {
                 case 4:
                     // List Movies
                     listMovies();
+                    break;
                 case 5:
                     // Checkout Movie
                     checkOutMovie();
+                    break;
                 case 6:
                     // Return Movie
                     returnMovie();
+                    break;
                 case 7:
                     // Login or Logout
                     loginOrLogout();
-                case 8:
-                    // Quit
-                    userPressedQuit = true;
-                    System.out.println("Good bye!\n");
                     break;
-                 default:
+                case 8:
+                    // View User Information
+                    viewUserInformation();
+                    break;
+                default:
                      System.out.println("Select a valid option!\n");
 
             }
         }
 
 
+    }
+
+    private static void viewUserInformation() {
+        System.out.println("Name: " + userLoggedIn.getName() + "\nEmail Address: " + userLoggedIn.getEmailAddress()
+        + "\nPhone Number: " + userLoggedIn.getPhoneNumber() + "\n");
     }
 
     private static void loginOrLogout() {
@@ -83,7 +104,8 @@ public class BibliotecaApp {
         System.out.println("Enter your library number.\n");
         String libraryNumber = getString();
         System.out.println("Enter your password.\n");
-        String password = getString();
+        String password = scan.nextLine();
+
         return library.checkIfUserExists(libraryNumber, password);
     }
 
